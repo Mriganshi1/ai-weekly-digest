@@ -68,6 +68,9 @@ async function sendNewsletter() {
             console.log(`📬 View Ethereal Preview: ${previewUrl}`);
         }
 
+        // Force exit! Nodemailer's SMTP pools will otherwise keep the script hanging forever!
+        process.exit(0);
+
     } catch (error) {
         console.error('❌ Failed to run newsletter script:', error);
         process.exit(1);
