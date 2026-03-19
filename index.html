@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Weekly Digest — Your Weekly AI News Infographic</title>
+    <meta name="description"
+        content="Stay updated with the latest AI news from OpenAI, Google, Meta, startups, and research labs — delivered in a beautiful weekly infographic." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+    <!-- Floating Background Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+
+    <div class="poster" id="poster">
+
+        <!-- Header -->
+        <header class="poster-header">
+            <div class="header-glow"></div>
+            <div class="header-content">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <span class="pulse-ring"></span>
+                        <span class="brand-emoji">🧠</span>
+                    </div>
+                    <div class="brand-text">
+                        <h1>AI Weekly Digest</h1>
+                        <p class="tagline">Your curated snapshot of artificial intelligence</p>
+                    </div>
+                </div>
+                <div class="week-badge" id="weekBadge">
+                    <span class="week-label">WEEK OF</span>
+                    <span class="week-dates" id="weekDates">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-item">
+                <span class="stat-number" id="totalArticles">—</span>
+                <span class="stat-label">Articles Found</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number" id="totalSources">16</span>
+                <span class="stat-label">Sources Tracked</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number" id="totalCategories">4</span>
+                <span class="stat-label">Categories</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number" id="generatedTime">—</span>
+                <span class="stat-label">Generated</span>
+            </div>
+        </div>
+
+        <!-- Weekly Summary — Light & Punny -->
+        <div class="summary-section" id="summarySection">
+            <div class="summary-header">
+                <span class="summary-icon">🍿</span>
+                <h2 class="summary-title">This Week in AI — The TL;DR</h2>
+            </div>
+            <div class="summary-content" id="summaryContent">
+                <p class="summary-loading">Cooking up some hot takes... 🧑‍🍳</p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions-bar">
+            <button class="btn-generate" id="btnGenerate" onclick="generateDigest()">
+                <span class="btn-icon">⚡</span>
+                <span class="btn-text">Generate This Week's Digest</span>
+                <span class="btn-loading" id="btnLoading" style="display:none;">
+                    <span class="spinner"></span> Fetching...
+                </span>
+            </button>
+            <button class="btn-secondary" id="btnShare" onclick="openShareModal()">
+                <span>📤</span> Share Digest
+            </button>
+            <button class="btn-print" id="btnDownloadPdf" onclick="downloadPDF()">
+                <span>🖨️</span> Save as PDF
+            </button>
+        </div>
+
+        <!-- News Grid -->
+        <main class="news-grid" id="newsGrid">
+            <!-- Populated by JS -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="poster-footer">
+            <p>Auto-generated from 16+ RSS feeds · AI Weekly Digest</p>
+            <p class="footer-sub">Next auto-generation: Monday 8:00 AM</p>
+        </footer>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">📤 Share This Digest</h3>
+                <button class="modal-close" onclick="closeShareModal()">✕</button>
+            </div>
+
+            <!-- Email Section -->
+            <div class="share-section">
+                <div class="share-section-label">Send via Email</div>
+                <div class="email-form">
+                    <input type="email" class="email-input" id="emailInput" placeholder="Enter email address..." />
+                    <button class="btn-send" id="btnSendEmail" onclick="sendEmail()">Send ✉️</button>
+                </div>
+                <div class="email-status" id="emailStatus"></div>
+            </div>
+
+            <!-- Social Share -->
+            <div class="share-section">
+                <div class="share-section-label">Share on Social</div>
+                <div class="share-buttons">
+                    <a class="share-btn" id="shareTwitter" href="#" target="_blank" rel="noopener">
+                        <span class="share-btn-icon">𝕏</span> Twitter / X
+                    </a>
+                    <a class="share-btn" id="shareLinkedIn" href="#" target="_blank" rel="noopener">
+                        <span class="share-btn-icon">💼</span> LinkedIn
+                    </a>
+                    <a class="share-btn" id="shareWhatsApp" href="#" target="_blank" rel="noopener">
+                        <span class="share-btn-icon">💬</span> WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- Copy Link -->
+            <div class="share-section">
+                <div class="share-section-label">Copy Link</div>
+                <div class="copy-link-row">
+                    <input type="text" class="copy-link-input" id="copyLinkInput" readonly value="" />
+                    <button class="btn-copy" id="btnCopyLink" onclick="copyLink()">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-card">
+            <div class="loading-brain">🧠</div>
+            <h2>Scanning the AI Universe...</h2>
+            <p>Fetching from 16+ sources</p>
+            <div class="loading-bar">
+                <div class="loading-bar-inner"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>
