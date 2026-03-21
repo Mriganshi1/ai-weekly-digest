@@ -134,23 +134,23 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
-// --- Weekly Cron Job ---
-// Runs every Monday at 8:00 AM
-cron.schedule('0 8 * * 1', async () => {
-    console.log('⏰ Weekly cron triggered — generating digest...');
+// --- Daily Cron Job ---
+// Runs every day at 8:00 AM
+cron.schedule('0 8 * * *', async () => {
+    console.log('⏰ Daily cron triggered — generating digest...');
     try {
         await generateDigest();
-        console.log('✅ Weekly digest generated successfully');
+        console.log('✅ Daily digest generated successfully');
     } catch (error) {
-        console.error('❌ Weekly digest generation failed:', error);
+        console.error('❌ Daily digest generation failed:', error);
     }
 });
 
 // --- Start Server ---
 app.listen(PORT, () => {
-    console.log(`\n🚀 AI Weekly Digest server running on http://localhost:${PORT}`);
+    console.log(`\n🚀 AI Daily Digest server running on http://localhost:${PORT}`);
     console.log(`📡 API: http://localhost:${PORT}/api/news`);
     console.log(`🔄 Generate: http://localhost:${PORT}/api/generate`);
     console.log(`✉️  Email: POST http://localhost:${PORT}/api/send-email`);
-    console.log(`⏰ Auto-generation: Every Monday at 8:00 AM\n`);
+    console.log(`⏰ Auto-generation: Every day at 8:00 AM\n`);
 });

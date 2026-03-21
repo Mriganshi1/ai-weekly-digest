@@ -27,14 +27,9 @@ function formatDate(dateStr) {
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-/**
- * Format a date range for the header badge.
- */
-function formatWeekRange(from, to) {
+function formatDayRange(from) {
     const f = new Date(from);
-    const t = new Date(to);
-    const opts = { month: 'short', day: 'numeric' };
-    return `${f.toLocaleDateString('en-US', opts)} — ${t.toLocaleDateString('en-US', opts)}, ${t.getFullYear()}`;
+    return f.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 /**
@@ -110,7 +105,7 @@ function renderDigest(digest) {
     currentDigest = digest;
 
     // Update header
-    weekDates.textContent = formatWeekRange(digest.weekRange.from, digest.weekRange.to);
+    weekDates.textContent = formatDayRange(digest.weekRange.to);
     totalArticles.textContent = digest.totalArticles;
 
     // Generated time
@@ -126,7 +121,7 @@ function renderDigest(digest) {
     renderSummary(digest);
 
     // Render categories
-    const categoryOrder = ['bigTech', 'techNews', 'research', 'startupsVC'];
+    const categoryOrder = ['bigTech', 'techNews', 'research', 'startupsVC', 'creators'];
     newsGrid.innerHTML = categoryOrder
         .map((key) => {
             const cat = digest.categories[key];
@@ -167,6 +162,11 @@ const CATEGORY_OPENERS = {
         '🚀 <strong>VCs are writing checks again.</strong>',
         '🚀 <strong>Founders are shipping.</strong>',
         '🚀 <strong>The startup grind never stops.</strong>',
+    ],
+    creators: [
+        '▶️ <strong>YouTube is buzzing with AI insights.</strong>',
+        '▶️ <strong>Your favorite creators just dropped new videos.</strong>',
+        '▶️ <strong>Watching AI so you don\'t have to.</strong>',
     ],
 };
 
@@ -278,8 +278,18 @@ function generateSummaryBlurbs(digest) {
     } else {
         blurbs.push({
             emoji: '🚀',
-            text: `${pickRandom(CATEGORY_OPENERS.startupsVC)} Quiet week on the startup front. Either everyone is in <span class="pun">stealth mode</span>, or they're too busy building to blog. Respect.`,
+            text: `${pickRandom(CATEGORY_OPENERS.startupsVC)} Quiet day on the startup front. Either everyone is in <span class="pun">stealth mode</span>, or they're too busy building to blog. Respect.`,
         });
+    }
+
+    // Creators summary
+    if (categories.creators && categories.creators.articles.length > 0) {
+        const articles = categories.creators.articles;
+        let text = `${pickRandom(CATEGORY_OPENERS.creators)} `;
+        text += `${articles.length} new videos uploaded today. `;
+        text += 'Be sure to <span class="pun">smash that like button</span> on these AI updates.';
+
+        blurbs.push({ emoji: '▶️', text });
     }
 
     return blurbs;
@@ -464,7 +474,7 @@ window.copyLink = copyLink;
 function updateSocialLinks() {
     if (!currentDigest) return;
 
-    const text = `🧠 AI Weekly Digest — ${currentDigest.totalArticles} articles from ${currentDigest.weekRange.from} to ${currentDigest.weekRange.to}. Stay updated with the latest in AI!`;
+    const text = `🧠 AI Daily Digest — ${currentDigest.totalArticles} articles from today. Stay updated with the latest in AI!`;
     const url = window.location.href;
 
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
@@ -491,11 +501,11 @@ function hideLoading() {
    ==================================== */
 
 async function downloadPDF() {
-    // Format Date and Time: AI Newsletter YYYY-MM-DD HH-MM-SS
+    // Format Date and Time: AI Daily Digest YYYY-MM-DD HH-MM-SS
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-CA'); // YYYY-MM-DD
     const timeStr = now.toLocaleTimeString('en-US', { hour12: false }).replace(/:/g, '-');
-    const filename = `AI Newsletter ${dateStr} ${timeStr}`;
+    const filename = `AI Daily Digest ${dateStr} ${timeStr}`;
 
     // Temporarily change document title so the browser's native "Save as PDF" uses it as the filename
     const originalTitle = document.title;

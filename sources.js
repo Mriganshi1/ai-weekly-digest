@@ -107,6 +107,32 @@ const SOURCES = {
             },
         ],
     },
+    creators: {
+        label: '▶️ Creators & YouTube',
+        color: '#ff0000',
+        feeds: [
+            {
+                name: 'Matt Wolfe',
+                url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCmD2r2yK00-Poo7G0-81RZw',
+                icon: '🐺',
+            },
+            {
+                name: 'AI Explained',
+                url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCNJ1Ymd5yWuZZxoA1p1Y2wA',
+                icon: '🧠',
+            },
+            {
+                name: 'Two Minute Papers',
+                url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg',
+                icon: '📄',
+            },
+            {
+                name: 'Wes Roth',
+                url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UC0q4O_xS9Z0XQ_s2u71sJ2g',
+                icon: '👨‍🦲',
+            },
+        ],
+    },
 };
 
 export default SOURCES;

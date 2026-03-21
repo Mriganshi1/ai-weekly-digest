@@ -1,9 +1,9 @@
-name: Weekly AI Newsletter Bot
+name: Daily AI Newsletter Bot
 
 on:
-  # Run automatically every Monday at 8:00 AM UTC
+  # Run automatically every day at 8:00 AM UTC
   schedule:
-    - cron: '0 8 * * 1'
+    - cron: '0 8 * * *'
   
   # Allow manual trigger from the Actions tab
   workflow_dispatch:

@@ -3,7 +3,7 @@ import { generateDigest } from '../aggregator.js';
 import { buildEmailHTML } from '../email-template.js';
 
 async function sendNewsletter() {
-    console.log('🚀 Starting weekly newsletter bot...');
+    console.log('🚀 Starting daily newsletter bot...');
 
     // Check for recipient email
     const recipient = process.env.RECIPIENT_EMAIL;
@@ -55,9 +55,9 @@ async function sendNewsletter() {
         // Send Email
         console.log(`✉️ Sending email to: ${recipient}`);
         const info = await transporter.sendMail({
-            from: '"AI Weekly Digest" <digest@aiweekly.app>',
+            from: '"AI Daily Digest" <digest@aiweekly.app>',
             to: recipient,
-            subject: `🧠 AI Weekly Digest — ${digest.weekRange.from} to ${digest.weekRange.to}`,
+            subject: `🧠 AI Daily Digest — ${digest.weekRange.from} to ${digest.weekRange.to}`,
             html: html,
         });
 

@@ -25,7 +25,7 @@ async function fetchFeed(feedInfo, categoryKey) {
     try {
         const feed = await parser.parseURL(feedInfo.url);
         const now = new Date();
-        const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        const cutoffDate = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 1 day limit
 
         const articles = (feed.items || [])
             .map((item) => ({
@@ -40,7 +40,7 @@ async function fetchFeed(feedInfo, categoryKey) {
             .filter((article) => {
                 if (!article.date) return true; // Include articles without dates
                 const articleDate = new Date(article.date);
-                return articleDate >= oneWeekAgo;
+                return articleDate >= cutoffDate;
             })
             .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
             .slice(0, 5); // Max 5 per feed
@@ -129,12 +129,12 @@ export async function generateDigest() {
     }
 
     const now = new Date();
-    const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const cutoffDate = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 1 day limit
 
     const digest = {
         generatedAt: now.toISOString(),
         weekRange: {
-            from: oneWeekAgo.toISOString().split('T')[0],
+            from: cutoffDate.toISOString().split('T')[0],
             to: now.toISOString().split('T')[0],
         },
         totalArticles: allArticles.length,
