@@ -135,8 +135,8 @@ app.get('/api/health', (req, res) => {
 });
 
 // --- Daily Cron Job ---
-// Runs every day at 8:00 AM
-cron.schedule('0 8 * * *', async () => {
+// Runs every day at 7:00 AM UTC
+cron.schedule('0 7 * * *', async () => {
     console.log('⏰ Daily cron triggered — generating digest...');
     try {
         await generateDigest();
@@ -152,5 +152,5 @@ app.listen(PORT, () => {
     console.log(`📡 API: http://localhost:${PORT}/api/news`);
     console.log(`🔄 Generate: http://localhost:${PORT}/api/generate`);
     console.log(`✉️  Email: POST http://localhost:${PORT}/api/send-email`);
-    console.log(`⏰ Auto-generation: Every day at 8:00 AM\n`);
+    console.log(`⏰ Auto-generation: Every day at 7:00 AM UTC\n`);
 });
